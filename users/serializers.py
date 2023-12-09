@@ -12,11 +12,16 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class UserCreateSerializer(serializers.HyperlinkedModelSerializer):
-    password = serializers.CharField(write_only=True)
+    password = serializers.CharField(style={'input_type': 'password'}, write_only=True)
 
     def create(self, validated_data):
-        validated_data['password'] = make_password(validated_data['password'])
-        return User.objects.create(**validated_data)
+        user = User(email=validated_data['email'], phone=validated_data['phone'],
+                    first_name=validated_data['first_name'], last_name=validated_data['last_name'],
+                    avatar=validated_data['avatar'], country=validated_data['country'],
+                    city=validated_data['city'])
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
 
     class Meta:
         model = User
