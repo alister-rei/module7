@@ -1,5 +1,5 @@
 # Aleksey Khadkov
-## Homework 24.1
+## Homework 24.2
 
 ## Для подключения данных создать файл `.env`, добавить в него :
 
@@ -11,3 +11,19 @@
 
 
 ## В файле `users/management/commands/csu.py` команда для создания суперпользователя с паролем 12345 . запустить команду `python manage.py csu`,
+
+## Создайте тестового пользователя `python manage.py ctu`
+
+## По очереди загрузите данные курсов , уроков и платежей :
+
+- `python manage.py loaddata courses_data.json`
+- `python manage.py loaddata lessons_data.json`
+- `python manage.py loaddata payment_data.json`
+
+## Для сортировки и поиска подставлять следующие значения :
+
+- `?ordering=-date_payment`  # сортировка по дате по убыванию
+- `?course_pay=1-2`  # сортировка по оплате конкретного курса
+- `?lesson_pay=1-4`  # сортировка по оплате урока
+- `?payment_method=наличные`  # сортировка по способу оплаты наличными
+- `?payment_method=перевод`  # сортировка по способу оплаты переводом
