@@ -1,0 +1,46 @@
+[
+  {
+    "model": "lessons.lesson",
+    "pk": 1,
+    "fields": {
+      "title": "test lesson 1 k1",
+      "description": "test lesson 1 k1",
+      "image": "",
+      "video": null,
+      "course": 1
+    }
+  },
+  {
+    "model": "lessons.lesson",
+    "pk": 2,
+    "fields": {
+      "title": "test lesson 2 k1",
+      "description": "test lesson 2 k1",
+      "image": "",
+      "video": null,
+      "course": 1
+    }
+  },
+  {
+    "model": "lessons.lesson",
+    "pk": 3,
+    "fields": {
+      "title": "test lesson 1 k2",
+      "description": "test lesson 1 k2",
+      "image": "",
+      "video": null,
+      "course": 2
+    }
+  },
+  {
+    "model": "lessons.lesson",
+    "pk": 4,
+    "fields": {
+      "title": "test lesson 2 k2",
+      "description": "test lesson 2 k2",
+      "image": "",
+      "video": null,
+      "course": 2
+    }
+  }
+]
