@@ -5,14 +5,18 @@ from django.contrib.auth.hashers import make_password
 
 # Serializers define the API representation.
 class UserSerializer(serializers.HyperlinkedModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = User
-        fields = ['pk', 'email', 'is_staff', 'is_superuser', 'first_name', 'last_name', 'phone', 'country', 'city',
+        fields = ['id', 'email', 'is_staff', 'is_superuser', 'first_name', 'last_name', 'phone', 'country', 'city',
                   'avatar']
 
 
 class UserCreateSerializer(serializers.HyperlinkedModelSerializer):
-    password = serializers.CharField(style={'input_type': 'password'}, write_only=True)
+    class Meta:
+        model = User
+        fields = ['email', 'password', 'first_name', 'last_name', 'phone', 'country', 'city', 'avatar']
 
     def create(self, validated_data):
         user = User(email=validated_data['email'], phone=validated_data['phone'],
@@ -23,6 +27,14 @@ class UserCreateSerializer(serializers.HyperlinkedModelSerializer):
         user.save()
         return user
 
-    class Meta:
-        model = User
-        fields = ['email', 'password', 'first_name', 'last_name', 'phone', 'country', 'city', 'avatar']
+    def update(self, instance, validated_data):
+        # now password not redact
+        instance.email = validated_data.get('email', instance.email)
+        instance.phone = validated_data.get('phone', instance.phone)
+        instance.first_name = validated_data.get('first_name', instance.first_name)
+        instance.last_name = validated_data.get('last_name', instance.last_name)
+        instance.avatar = validated_data.get('avatar', instance.avatar)
+        instance.country = validated_data.get('country', instance.country)
+        instance.city = validated_data.get('city', instance.city)
+        instance.save()
+        return instance
