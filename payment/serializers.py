@@ -10,7 +10,6 @@ from users.serializers import UserSerializer
 
 # Serializers define the API representation.
 class PaymentSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(read_only=True)
     lesson_pay = LessonSerializer(read_only=True)
     course_pay = CourseSerializer(read_only=True)
     user = UserSerializer(read_only=True)
