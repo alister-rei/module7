@@ -2,25 +2,14 @@ from rest_framework import serializers
 
 from courses.models import Course
 from lessons.models import Lesson
+from lessons.serializers import LessonSerializer
 from users.models import User
 
 
 # Serializers define the API representation.
-class CourseUserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['id', 'email']
-
-
-class CourseLessonsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Lesson
-        fields = ['id', 'title', 'description', 'image', 'video']
-
 
 class CourseSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(read_only=True)
-    lessons = CourseLessonsSerializer(many=True)
+    lessons = LessonSerializer(many=True, required=False)
     lessons_count = serializers.IntegerField(read_only=True, source='lessons.all.count')
     # owner = CourseUserSerializer(read_only=True)
 
@@ -29,12 +18,13 @@ class CourseSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def create(self, validated_data):
-        lessons = validated_data.pop('lessons')
+        lessons = validated_data.pop('lessons', [])
 
         course_item = Course.objects.create(**validated_data)
 
-        for lesson in lessons:
-            Lesson.objects.create(**lesson, course=course_item)
+        if lessons:
+            for lesson in lessons:
+                Lesson.objects.create(**lesson, course=course_item)
 
         return course_item
 
