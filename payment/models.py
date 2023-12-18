@@ -13,7 +13,8 @@ class Payment(models.Model):
 
     PAYMENT_CHOICE = [(CASH, "наличные"), (TRANSFER, "перевод")]
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, verbose_name='пользователь', **NULLABLE,
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, verbose_name='пользователь',
+                             **NULLABLE,
                              related_name='owner')
     date_payment = models.DateTimeField(auto_now_add=True, verbose_name='Дата оплаты')
     lesson_pay = models.ForeignKey(Lesson, **NULLABLE, on_delete=models.SET_NULL, verbose_name='оплаченный  Урок',
@@ -21,7 +22,7 @@ class Payment(models.Model):
     course_pay = models.ForeignKey(Course, **NULLABLE, on_delete=models.SET_NULL, verbose_name='оплаченный  Курс',
                                    related_name='course')
     payment_amount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Цена за покупку')
-    payment_method = models.CharField(choices=PAYMENT_CHOICE, verbose_name='способ оплаты')
+    payment_method = models.CharField(max_length=25, choices=PAYMENT_CHOICE, verbose_name='способ оплаты')
 
     def __str__(self):
         return f'{self.user} by {self.lesson_pay if self.lesson_pay else self.course_pay}'
