@@ -15,7 +15,7 @@ class Payment(models.Model):
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, verbose_name='пользователь',
                              **NULLABLE,
-                             related_name='owner')
+                             related_name='user')
     date_payment = models.DateTimeField(auto_now_add=True, verbose_name='Дата оплаты')
     lesson_pay = models.ForeignKey(Lesson, **NULLABLE, on_delete=models.SET_NULL, verbose_name='оплаченный  Урок',
                                    related_name='lesson')
