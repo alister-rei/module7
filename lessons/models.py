@@ -14,8 +14,8 @@ class Lesson(models.Model):
 
     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='Курс', related_name='lessons')
 
-    # owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, verbose_name='владелец', **NULLABLE,
-    #                           related_name='owner')
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, verbose_name='владелец', **NULLABLE,
+                              related_name='lesson_owner')
 
     def __str__(self):
         return self.title
