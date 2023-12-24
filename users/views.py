@@ -2,8 +2,9 @@ from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from main.paginators import UserPaginator
 from users.models import User
-from users.permissions import IsStaff
+from users.permissions import IsStaff, OwnerOrModerator
 from users.serializers import UserSerializer, UserCreateSerializer
 
 
@@ -17,7 +18,8 @@ class UserListAPIView(generics.ListAPIView):
     """отвечает за отображение списка сущностей."""
     serializer_class = UserSerializer
     queryset = User.objects.all()
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsStaff]
+    pagination_class = UserPaginator
 
 
 class UserRetrieveAPIView(generics.RetrieveAPIView):
