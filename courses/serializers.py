@@ -3,7 +3,9 @@ from rest_framework import serializers
 from courses.models import Course
 from lessons.models import Lesson
 from lessons.serializers import LessonSerializer
-from users.models import User
+from main.validators import use_site_link
+from subs.models import Sub
+from users.serializers import UserShortSerializer
 
 
 # Serializers define the API representation.
@@ -11,7 +13,9 @@ from users.models import User
 class CourseSerializer(serializers.ModelSerializer):
     lessons = LessonSerializer(many=True, required=False)
     lessons_count = serializers.IntegerField(read_only=True, source='lessons.all.count')
-    # owner = CourseUserSerializer(read_only=True)
+    owner = UserShortSerializer(read_only=True)
+    description = serializers.CharField(validators=[use_site_link])
+    is_subscribed = serializers.SerializerMethodField()
 
     class Meta:
         model = Course
@@ -42,3 +46,9 @@ class CourseSerializer(serializers.ModelSerializer):
             Lesson.objects.create(**lesson_data, course=instance)
 
         return instance
+
+    def get_is_subscribed(self, obj):
+        request = self.context.get('request')
+        if request and request.user.is_authenticated:
+            return Sub.objects.filter(user=request.user, course=obj, is_active=True).exists()
+        return False
