@@ -5,14 +5,14 @@ from courses.serializers import CourseSerializer
 from lessons.models import Lesson
 from lessons.serializers import LessonSerializer
 from payment.models import Payment
-from users.serializers import UserSerializer
+from users.serializers import UserShortSerializer
 
 
 # Serializers define the API representation.
 class PaymentSerializer(serializers.ModelSerializer):
     lesson_pay = LessonSerializer(read_only=True)
     course_pay = CourseSerializer(read_only=True)
-    user = UserSerializer(read_only=True)
+    user = UserShortSerializer(read_only=True)
 
     class Meta:
         model = Payment
