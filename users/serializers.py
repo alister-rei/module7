@@ -5,8 +5,6 @@ from django.contrib.auth.hashers import make_password
 
 # Serializers define the API representation.
 class UserSerializer(serializers.HyperlinkedModelSerializer):
-    id = serializers.IntegerField(read_only=True)
-
     class Meta:
         model = User
         fields = ['id', 'email', 'is_staff', 'is_superuser', 'first_name', 'last_name', 'phone', 'country', 'city',
@@ -38,3 +36,9 @@ class UserCreateSerializer(serializers.HyperlinkedModelSerializer):
         instance.city = validated_data.get('city', instance.city)
         instance.save()
         return instance
+
+
+class UserShortSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'email']
