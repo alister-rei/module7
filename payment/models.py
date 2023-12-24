@@ -30,4 +30,5 @@ class Payment(models.Model):
     class Meta:
         verbose_name = 'Платеж'
         verbose_name_plural = 'Платежи'
+        unique_together = ('user', 'course_pay')
         # ordering = ('date_payment',)  # сортировка
