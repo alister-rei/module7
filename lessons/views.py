@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from lessons.models import Lesson
 from lessons.serializers import LessonSerializer
+from main.paginators import LessonPaginator
 from main.services import is_member
 from users.permissions import OwnerOrModerator, IsOwner, NotModerator
 
@@ -23,13 +24,14 @@ class LessonListAPIView(generics.ListAPIView):
     """отвечает за отображение списка сущностей."""
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
-    permission_classes = [IsAuthenticated, OwnerOrModerator]
+    permission_classes = [IsAuthenticated]
+    pagination_class = LessonPaginator
 
-    def get_queryset(self):
-        # Возвращает только объекты, принадлежащие текущему пользователю
-        if is_member(self.request.user):
-            return self.queryset.all()
-        return self.queryset.filter(owner=self.request.user)
+    # def get_queryset(self):
+    #     # Возвращает только объекты, принадлежащие текущему пользователю
+    #     if is_member(self.request.user):
+    #         return self.queryset.all()
+    #     return self.queryset.filter(owner=self.request.user)
 
 
 class LessonRetrieveAPIView(generics.RetrieveAPIView):
