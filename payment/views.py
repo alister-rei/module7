@@ -3,6 +3,7 @@ from rest_framework import generics
 from rest_framework.filters import OrderingFilter
 from rest_framework.permissions import IsAuthenticated
 
+from main.paginators import UserPaginator
 from payment.models import Payment
 from payment.serializers import PaymentSerializer, PaymentCreateSerializer
 from users.permissions import IsStaff, OwnerOrModerator
@@ -19,6 +20,7 @@ class PaymentListAPIView(generics.ListAPIView):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
     permission_classes = [IsStaff]
+    pagination_class = UserPaginator
 
     filter_backends = [DjangoFilterBackend, OrderingFilter]  # Бэкенд для обработки фильтра
     filterset_fields = ('course_pay', 'lesson_pay', 'payment_method')  # Набор полей для фильтрации
