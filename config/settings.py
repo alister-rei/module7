@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'courses',
     'lessons',
     'payment',
+    'subs',
 ]
 
 MIDDLEWARE = [
@@ -156,9 +157,26 @@ REST_FRAMEWORK = {
 
 # Настройки срока действия токенов
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 
 # авторизация пользователей
 AUTH_USER_MODEL = 'users.User'
+
+
+# настройки почты для отправки сообщений с сервиса 'smtp.yandex.ru'
+EMAIL_BACKEND = os.getenv('EMAIL_BACKEND')
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_PORT = os.getenv('EMAIL_PORT')
+EMAIL_USE_SSL = True
+
+# адрес электронной почты и пароль от приложения для отправки писем
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+SERVER_EMAIL = EMAIL_HOST_USER
+EMAIL_ADMIN = EMAIL_HOST_USER
+
+TEST_USER_MAIL = os.getenv('TEST_USER_MAIL')
