@@ -13,8 +13,8 @@ class OwnerOrModerator(BasePermission):
 
 
 class IsOwner(BasePermission):
+
     def has_object_permission(self, request, view, obj):
-        # Разрешить PUT, PATCH или DELETE запросы только владельцу объекта
         return obj.owner == request.user
 
 
@@ -29,3 +29,5 @@ class NotModerator(BasePermission):
     def has_permission(self, request, view):
         return not is_member(request.user)
 
+#  NotModerator == ~IsModerator/   ~ = not
+#  OwnerOrModerator == IsModerator | IsOwner/   | = or
