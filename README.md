@@ -8,6 +8,12 @@
 - DB_PASSWORD=12345  # пароль пользователя от бд
 - DB_NAME='training'  # название бд
 - DB_ENGINE='django.db.backends.postgresql_psycopg2'  # подключение бд
+- EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+- EMAIL_HOST='smtp.yandex.ru'  # для яндекс почты
+- EMAIL_PORT=465  # для яндекс почты
+- EMAIL_HOST_USER='your_email@yandex.ru'
+- EMAIL_HOST_PASSWORD='your_yandex_smtp_password'
+- TEST_USER_MAIL='your_email@email.com' # почта для проверки подписки
 
 
 ## В файле `users/management/commands/csu.py` команда для создания суперпользователя с паролем 12345 . запустить команду `python manage.py csu`,
@@ -31,4 +37,8 @@
 
 ## Для работы с платежеми нужен пользователь со статусом `персонала`
 ## Для получения токена.  `users/api/token/`: {"email": "test@sky.pro","password": "12345"}.
-## Добавьте в группу `moderator` пользователя
+## Добавлена проверка для уроков и курсов на отсутствие ссылок в описании и видео 
+## Добавлена модель подписки для пользователя `user=request.user` 
+## В сериалайзер курса добавлено поле о подписке пользователя
+## Для всех списков добавлена пагинация
+## Для запуска тестов(для пользователя, для уроков, для подписки) `python manage.py test`
